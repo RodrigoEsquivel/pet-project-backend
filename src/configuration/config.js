@@ -2,10 +2,11 @@ import fs from 'fs';
 import path, {dirname} from 'path';
 import http from 'http';
 import { fileURLToPath } from 'url'
+import dotenv from 'dotenv';
 
 
 const port =  9100;
-
+dotenv.config();
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
@@ -56,4 +57,9 @@ const security = {
     }
   };
 
-export {port , security, serverconfig};
+  const jwtSecretKey = process.env.JWT_SECRET_KEY || 'SECRETKEY';
+
+  const mongoDBURI = process.env.MONGODB_URI || '';
+  ;
+
+export {port , security, serverconfig, jwtSecretKey, mongoDBURI};

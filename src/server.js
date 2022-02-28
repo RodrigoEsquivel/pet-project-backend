@@ -8,6 +8,7 @@ import compression from 'compression';
 import routes from './routes/index.js';
 import { log } from './util/general.js';
 import { port, security, serverconfig } from './configuration/config.js';
+import { dbConnection } from './database/connection.js';
 
 const app = express();
 serverconfig(app, security, port);
@@ -17,6 +18,8 @@ app.use(compression());
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(morgan('combined'));
+
+dbConnection();
 app.use('/', routes);
 app.use((req, res) => {
   log.debug(req.path, req.params, req.method);

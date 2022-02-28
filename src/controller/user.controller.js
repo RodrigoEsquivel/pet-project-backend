@@ -1,7 +1,7 @@
 import pkg from 'express';
 import httpStatus from 'http-status';
 import { catchAsync, log } from '../util/general.js';
-import { processLogin } from '../middleware/user.middleware';
+import { processLogin } from '../middleware/user.middleware.js';
 
 const {Request, Response } = pkg;
 
