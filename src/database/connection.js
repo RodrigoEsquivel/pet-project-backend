@@ -13,6 +13,8 @@ const dbConnection = async () => {
           DESCRIPTION: 'Error in DB connection!',
           STACK: err.stack,
           }); 
+          throw new Error('Error in DB connection.');
       }
     }
+
 export {dbConnection};

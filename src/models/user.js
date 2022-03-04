@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
+const { Schema, model } = mongoose;
 
 const UserSchema = Schema({
     name: {
@@ -17,9 +18,13 @@ const UserSchema = Schema({
     password: {
         type: String,
         required: true
+    },
+    role: {
+        type: String,
+        required: true
     }
 });
 
-const User = mongoose.model('User', UserSchema);
+const Users = mongoose.model('Users', UserSchema);
 
-export {User};
+export {Users};

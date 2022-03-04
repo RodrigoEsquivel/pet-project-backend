@@ -1,7 +1,7 @@
 import joi from 'joi';
 import httpStatus from 'http-status';
 import pkg from 'express';
-import { pick } from '../util/general.js';
+import { pick, log } from '../util/general.js';
 import { BAD_REQUEST } from '../util/static.js';
 
 const { NextFunction, Request, Response } = pkg;
@@ -28,6 +28,7 @@ const validate = (schema) => (
       const errorMessage = error.details
         .map((details) => details.message)
         .join(', ');
+      log.error(error);
       return res.status(httpStatus.BAD_REQUEST).send({
         ...BAD_REQUEST,
         MESSAGE: errorMessage,
