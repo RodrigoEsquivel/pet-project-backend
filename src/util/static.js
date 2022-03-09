@@ -1,20 +1,32 @@
 const BAD_REQUEST = {
     STATUS: 'error',
-    DESCRIPTION: 'Faltan los parámetros POST',
+    DESCRIPTION: 'POST parameters missing',
   };
 
 const AUTH_FAILED = { 
     STATUS: 'error',
-    DESCRIPTION: 'La autenticación falló',
+    DESCRIPTION: 'Authentication failed',
   };
 
 const LOGIN_SUCCESS = {
     STATUS: 'success',
-    DESCRIPTION: 'INICIO DE SESIÓN EXITOSO',
+    DESCRIPTION: 'Successful login',
+  };
+
+const USER_CREATED_FAILED = {
+    STATUS: 'error',
+    DESCRIPTION: 'Error in user creation',
+  };
+
+const USER_CREATED = {
+    STATUS: 'success',
+    DESCRIPTION: 'User created successfully',
   };
 
   export {
     BAD_REQUEST,
     AUTH_FAILED,
-    LOGIN_SUCCESS
+    LOGIN_SUCCESS,
+    USER_CREATED_FAILED,
+    USER_CREATED,
   };
