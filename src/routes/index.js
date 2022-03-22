@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import validate from '../middleware/validate.js';
-import { login, create } from '../validation/user.validation.js';
-import UserController from '../controller/user.controller.js';
+import userRoute from './user.route.js';
+import productRoute from './product.route.js';
 
 const router = Router();
 
-router.post('/login', validate(login), UserController.login);
-router.post('/create', validate(create), UserController.create);
+router.use('/user', userRoute);
+router.use('/product', productRoute);
+
 
 export default router;
