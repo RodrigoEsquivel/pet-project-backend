@@ -40,6 +40,7 @@ const processLogin = async (
               ...LOGIN_SUCCESS,
               ...TOKEN,
               userData: {
+                id: user._id,
                 name: user.name,
                 lastName: user.lastName,
                 email: user.email,
