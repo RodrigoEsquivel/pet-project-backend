@@ -7,7 +7,7 @@ import requireJwtMiddleware from '../middleware/jwt.middleware.js';
 const router = Router();
 
 router.post('/create', validate(create), requireJwtMiddleware, ProductController.create);
-router.post('/selectAll', validate(selectAll), requireJwtMiddleware, ProductController.selectAll);
-router.post('/selectAllFromUser', validate(selectAllFromUser), requireJwtMiddleware, ProductController.selectAllFromUser);
+router.get('/selectAll', validate(selectAll), requireJwtMiddleware, ProductController.selectAll);
+router.get('/selectAllFromUser', validate(selectAllFromUser), requireJwtMiddleware, ProductController.selectAllFromUser);
 
 export default router;

@@ -30,8 +30,29 @@ const PRODUCT_CREATED = {
 
 const PRODUCT_CREATED_FAILED = {
     STATUS: 'error',
-    DESCRIPTION: 'Error in user creation',
+    DESCRIPTION: 'Error in product creation',
   };
+
+const PRODUCTS_SELECTED = {
+    STATUS: 'success',
+    DESCRIPTION: 'Products selected successfully',
+  };
+
+const PRODUCTS_SELECTED_FAILED = {
+    STATUS: 'error',
+    DESCRIPTION: 'Error in products selection',
+  };
+
+const PRODUCTS_BY_USER_SELECTED = {
+    STATUS: 'success',
+    DESCRIPTION: 'Products selected successfully',
+  };
+
+const PRODUCTS_BY_USER_SELECTED_FAILED = {
+    STATUS: 'error',
+    DESCRIPTION: 'Error in products selection',
+  };
+
 
   export {
     BAD_REQUEST,
@@ -40,5 +61,9 @@ const PRODUCT_CREATED_FAILED = {
     USER_CREATED_FAILED,
     USER_CREATED,
     PRODUCT_CREATED,
-    PRODUCT_CREATED_FAILED
+    PRODUCT_CREATED_FAILED,
+    PRODUCTS_SELECTED,
+    PRODUCTS_SELECTED_FAILED,
+    PRODUCTS_BY_USER_SELECTED,
+    PRODUCTS_BY_USER_SELECTED_FAILED
   };

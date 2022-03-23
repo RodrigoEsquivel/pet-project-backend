@@ -1,7 +1,7 @@
 import pkg from 'express';
 import httpStatus from 'http-status';
 import { catchAsync, log } from '../util/general.js';
-import { processCreate } from '../middleware/product.middleware.js';
+import { processCreate, processSelectAll, processSelectAllFromUser } from '../middleware/product.middleware.js';
 
 const {Request, Response } = pkg;
 //NEEDS TO BE MODIFIED
@@ -27,8 +27,8 @@ export default {
         if (response) res.status(response.responseStatus).send(response.responseProcess);
     }),
     selectAll: catchAsync(async (req, res) => {
-        const { Email, Password, Name, LastName, Role } = req.body;
-        const response = await processCreate(Email, Password, Name, LastName, Role).catch(
+        const Token = req.headers.authorization || '';
+        const response = await processSelectAll(Token).catch(
         (error) => {
             log.error({
             STATUS: 'error',
@@ -46,8 +46,9 @@ export default {
         if (response) res.status(response.responseStatus).send(response.responseProcess);
     }),
     selectAllFromUser: catchAsync(async (req, res) => {
-        const { Email, Password, Name, LastName, Role } = req.body;
-        const response = await processCreate(Email, Password, Name, LastName, Role).catch(
+        const Token = req.headers.authorization || '';
+        const { UserId } = req.body;
+        const response = await processSelectAllFromUser(Token, UserId).catch(
         (error) => {
             log.error({
             STATUS: 'error',

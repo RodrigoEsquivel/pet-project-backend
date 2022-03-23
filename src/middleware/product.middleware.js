@@ -3,12 +3,12 @@ import { jwtSecretKey } from '../configuration/config.js';
 import { log } from '../util/general.js';
 import { Products } from '../models/product.js';
 import {
-  AUTH_FAILED,
-  LOGIN_SUCCESS,
-  USER_CREATED,
-  USER_CREATED_FAILED,
   PRODUCT_CREATED,
-  PRODUCT_CREATED_FAILED
+  PRODUCT_CREATED_FAILED,
+  PRODUCTS_SELECTED,
+  PRODUCTS_SELECTED_FAILED,
+  PRODUCTS_BY_USER_SELECTED,
+  PRODUCTS_BY_USER_SELECTED_FAILED
 } from '../util/static.js';
 import { encodeSession, decodeSession } from '../util/auth.js';
 
@@ -61,7 +61,7 @@ const processCreate= async (
       };     
     }
     return {
-      responseStatus: 401,
+      responseStatus: 400,
       responseProcess: {
         ...PRODUCT_CREATED_FAILED,
         message: 'Product creation failed',
@@ -70,11 +70,18 @@ const processCreate= async (
     };
   };
 
-  const processSelectAll = async (
-    Email,
-    Password
-  ) => {
-    const user = await Users.findOne({email: Email}).exec().catch((error) => {
+const processSelectAll = async (Token) => {
+    const session = decodeSession(jwtSecretKey, Token);
+    if (session.type !== 'valid') {
+        return {
+        responseStatus: 401,
+        responseProcess: {
+            ...INVALID_TOKEN,
+            TIMESTAMP: Date.now(),
+        },
+        };
+    }
+    const products = await Products.find({}).exec().catch((error) => {
       log.error({
         STATUS: 'error',
         DESCRIPTION: 'Error in DB request.',
@@ -82,56 +89,41 @@ const processCreate= async (
       });
       throw new Error('Error in DB request.');
     });
-    if (user) {
-        if (comparePassword(Password, user.password)) {
-          const TOKEN = encodeSession(jwtSecretKey, {
-            id: user._id,
-            name: user.name,
-            lastName: user.lastName,
-            email: user.email,
-            rol: user.role,
-            dateCreated: Date.now(),
-          });
+    if (products) {
           return {
             responseStatus: 200,
             responseProcess: {
-              ...LOGIN_SUCCESS,
-              ...TOKEN,
-              userData: {
-                name: user.name,
-                lastName: user.lastName,
-                email: user.email,
-                rol: user.role,
-              },
+              ...PRODUCTS_SELECTED,
+              products,
               TIMESTAMP: Date.now(),
             },
           };
-        }
+    }
         return {
-          responseStatus: 401,
+          responseStatus: 400,
           responseProcess: {
-            ...AUTH_FAILED,
-            message: 'Incorrect email and/or password',
+            ...PRODUCTS_SELECTED_FAILED,
+            message: 'Error in the selection of products',
             TIMESTAMP: Date.now(),
           },
-        };
-      
-    }
-    return {
-      responseStatus: 401,
-      responseProcess: {
-        ...AUTH_FAILED,
-        message: 'Incorrect email and/or password.',
-        TIMESTAMP: Date.now(),
-      },
-    };
+        };    
   };
 
   const processSelectAllFromUser = async (
-    Email,
-    Password
+    Token,
+    UserId
   ) => {
-    const user = await Users.findOne({email: Email}).exec().catch((error) => {
+    const session = decodeSession(jwtSecretKey, Token);
+    if (session.type !== 'valid') {
+        return {
+        responseStatus: 401,
+        responseProcess: {
+            ...INVALID_TOKEN,
+            TIMESTAMP: Date.now(),
+        },
+        };
+    }
+    const products = await Products.find({seller: UserId}).exec().catch((error) => {
       log.error({
         STATUS: 'error',
         DESCRIPTION: 'Error in DB request.',
@@ -139,49 +131,24 @@ const processCreate= async (
       });
       throw new Error('Error in DB request.');
     });
-    if (user) {
-        if (comparePassword(Password, user.password)) {
-          const TOKEN = encodeSession(jwtSecretKey, {
-            id: user._id,
-            name: user.name,
-            lastName: user.lastName,
-            email: user.email,
-            rol: user.role,
-            dateCreated: Date.now(),
-          });
+    if (products) {
           return {
             responseStatus: 200,
             responseProcess: {
-              ...LOGIN_SUCCESS,
-              ...TOKEN,
-              userData: {
-                name: user.name,
-                lastName: user.lastName,
-                email: user.email,
-                rol: user.role,
-              },
+              ...PRODUCTS_BY_USER_SELECTED,
+              products,
               TIMESTAMP: Date.now(),
             },
           };
-        }
+    }
         return {
-          responseStatus: 401,
+          responseStatus: 400,
           responseProcess: {
-            ...AUTH_FAILED,
-            message: 'Incorrect email and/or password',
+            ...PRODUCTS_BY_USER_SELECTED_FAILED,
+            message: 'Error in the selection of products',
             TIMESTAMP: Date.now(),
           },
-        };
-      
-    }
-    return {
-      responseStatus: 401,
-      responseProcess: {
-        ...AUTH_FAILED,
-        message: 'Incorrect email and/or password.',
-        TIMESTAMP: Date.now(),
-      },
-    };
+        }; 
   };
 
 
