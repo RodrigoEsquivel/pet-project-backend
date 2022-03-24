@@ -8,6 +8,6 @@ const router = Router();
 
 router.post('/create', validate(create), requireJwtMiddleware, ProductController.create);
 router.get('/selectAll', validate(selectAll), requireJwtMiddleware, ProductController.selectAll);
-router.get('/selectAllFromUser', validate(selectAllFromUser), requireJwtMiddleware, ProductController.selectAllFromUser);
+router.post('/selectAllFromUser', validate(selectAllFromUser), requireJwtMiddleware, ProductController.selectAllFromUser);
 
 export default router;
