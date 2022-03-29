@@ -4,7 +4,6 @@ import { catchAsync, log } from '../util/general.js';
 import { processCreate, processSelectAll, processSelectAllFromUser } from '../middleware/product.middleware.js';
 
 const {Request, Response } = pkg;
-//NEEDS TO BE MODIFIED
 export default {
     create: catchAsync(async (req, res) => {
         const Token = req.headers.authorization || '';

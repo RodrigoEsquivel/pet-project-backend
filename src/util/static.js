@@ -53,6 +53,37 @@ const PRODUCTS_BY_USER_SELECTED_FAILED = {
     DESCRIPTION: 'Error in products selection',
   };
 
+  const USER_DELETED = {
+    STATUS: 'success',
+    DESCRIPTION: 'User deleted successfully',
+  };
+
+const USER_DELETED_FAILED = {
+    STATUS: 'error',
+    DESCRIPTION: 'Error in user deletion',
+  };
+
+  const USER_UPDATED = {
+    STATUS: 'success',
+    DESCRIPTION: 'User updated successfully',
+  };
+
+const USER_UPDATED_FAILED = {
+    STATUS: 'error',
+    DESCRIPTION: 'Error in user update',
+  };
+
+  const USER_READ = {
+    STATUS: 'success',
+    DESCRIPTION: 'User read successfully',
+  };
+
+const USER_READ_FAILED = {
+    STATUS: 'error',
+    DESCRIPTION: 'Error in user read',
+  };
+
+
 
   export {
     BAD_REQUEST,
@@ -65,5 +96,11 @@ const PRODUCTS_BY_USER_SELECTED_FAILED = {
     PRODUCTS_SELECTED,
     PRODUCTS_SELECTED_FAILED,
     PRODUCTS_BY_USER_SELECTED,
-    PRODUCTS_BY_USER_SELECTED_FAILED
+    PRODUCTS_BY_USER_SELECTED_FAILED,
+    USER_DELETED,
+    USER_DELETED_FAILED,
+    USER_UPDATED,
+    USER_UPDATED_FAILED,
+    USER_READ,
+    USER_READ_FAILED
   };
