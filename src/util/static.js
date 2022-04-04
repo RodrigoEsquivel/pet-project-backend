@@ -83,6 +83,16 @@ const USER_READ_FAILED = {
     DESCRIPTION: 'Error in user read',
   };
 
+  const USER_ALREADY_REGISTERED = {
+    STATUS: 'success',
+    DESCRIPTION: 'User already registered',
+  };
+
+  const USER_NOT_REGISTERED = {
+    STATUS: 'error',
+    DESCRIPTION: 'User not registered',
+  };
+
 
 
   export {
@@ -102,5 +112,7 @@ const USER_READ_FAILED = {
     USER_UPDATED,
     USER_UPDATED_FAILED,
     USER_READ,
-    USER_READ_FAILED
+    USER_READ_FAILED,
+    USER_ALREADY_REGISTERED,
+    USER_NOT_REGISTERED
   };

@@ -79,4 +79,10 @@ const login = {
     }),
   };
 
-  export {login, create, deleteUser, update, read};
+  const validateEmail = {
+    body: joi.object().keys({
+      Email: joi.string().email().required(),
+    }),
+  };
+
+  export {login, create, deleteUser, update, read, validateEmail};

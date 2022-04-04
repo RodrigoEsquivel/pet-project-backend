@@ -12,7 +12,9 @@ import {
   USER_READ,
   USER_READ_FAILED,
   USER_UPDATED,
-  USER_UPDATED_FAILED
+  USER_UPDATED_FAILED,
+  USER_ALREADY_REGISTERED,
+  USER_NOT_REGISTERED
 } from '../util/static.js';
 import { encodeSession, decodeSession } from '../util/auth.js';
 
@@ -291,7 +293,53 @@ const processCreate= async (
         }; 
   };
 
+  const processValidateEmail = async (
+    Email
+  ) => {
+    const userAlreadyRegistered = await Users.findOne({email: Email}).exec().catch((error) => {
+      log.error({
+        STATUS: 'error',
+        DESCRIPTION: 'Error in DB request.',
+        STACK: error.stack,
+      });
+      throw new Error('Error in DB request.');
+    });
+    if (userAlreadyRegistered) {
+          const TOKEN = encodeSession(jwtSecretKey, {
+            id: userAlreadyRegistered._id,
+            name: userAlreadyRegistered.name,
+            lastName: userAlreadyRegistered.lastName,
+            email: userAlreadyRegistered.email,
+            rol: userAlreadyRegistered.role,
+            dateCreated: Date.now(),
+          });
+          return {
+            responseStatus: 200,
+            responseProcess: {
+              ...USER_ALREADY_REGISTERED,
+              userData: {
+                id: userAlreadyRegistered._id,
+                name: userAlreadyRegistered.name,
+                lastName: userAlreadyRegistered.lastName,
+                email: userAlreadyRegistered.email,
+                rol: userAlreadyRegistered.role,
+              },
+              ...TOKEN,
+              TIMESTAMP: Date.now(),
+            },
+          };
+    }
+        return {
+          responseStatus: 400,
+          responseProcess: {
+            ...USER_NOT_REGISTERED,
+            message: 'User not registered',
+            TIMESTAMP: Date.now(),
+          },
+        }; 
+  };
+
   
 
 
-  export {processLogin, processCreate, processDelete, processUpdate, processRead};
+  export {processLogin, processCreate, processDelete, processUpdate, processRead, processValidateEmail};
